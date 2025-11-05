@@ -40,7 +40,7 @@ public class SolicitudUseCase {
 
     public Mono<Solicitud> validateMon(Solicitud solicitud){
         System.out.println("Validando los Montos de la solicitud con SALARIO --> " + solicitud.getMonto().doubleValue() + "   y  SalarioBase --> " + SalaryBase);
-        if (solicitud.getMonto().doubleValue() < SalaryBase.doubleValue()){
+        if (solicitud.getMonto().doubleValue() > SalaryBase.doubleValue()){
             return Mono.error(new BusinessException("El monto de solicitud es mayor al salario del empleado"));
         }
         return Mono.just(solicitud);
@@ -63,7 +63,6 @@ public class SolicitudUseCase {
         return solicitudGateway.existById(randomIdSolicitud)
                 .flatMap(exists -> {
                     if (exists) {
-                        // Si el ID ya existe, generar otro (recursivo)
                         return generateUniqueIdSolicitud();
                     } else {
                         System.out.println("el Id de la SOlicitud es   " + randomIdSolicitud);
