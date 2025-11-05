@@ -1,6 +1,8 @@
 package co.com.juandaza.r2dbc.solicitud;
 
+import co.com.juandaza.model.user.User;
 import co.com.juandaza.r2dbc.entities.SolicitudEntity;
+import co.com.juandaza.r2dbc.entities.UsersEntity;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -8,10 +10,10 @@ import reactor.core.publisher.Mono;
 
 public interface SolicitudRepository extends ReactiveCrudRepository<SolicitudEntity,String> {
 
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
+    @Query("SELECT * " +
             "FROM ms_jd_credy_ya.Usuarios u " +
             "WHERE u.email = :u AND u.documento_identidad = :d")
-    Mono<Boolean> findUserByEmailId(@Param("u") String email, @Param("d") String numDoc);
+    Mono<User> findUserByEmailId(@Param("u") String email, @Param("d") String numDoc);
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
             "FROM ms_jd_credy_ya.tipo_prestamo u " +

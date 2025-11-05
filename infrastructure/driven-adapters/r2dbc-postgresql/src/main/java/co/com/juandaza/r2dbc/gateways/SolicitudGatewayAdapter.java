@@ -3,7 +3,9 @@ package co.com.juandaza.r2dbc.gateways;
 import co.com.juandaza.model.solicitudModel.Solicitud;
 import co.com.juandaza.model.solicitudModel.gateways.SolicitudGateway;
 import co.com.juandaza.model.solicitudModel.gateways.TipoPrestamo;
+import co.com.juandaza.model.user.User;
 import co.com.juandaza.r2dbc.solicitud.SolicitudRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,7 @@ public class SolicitudGatewayAdapter implements SolicitudGateway {
     }
 
     @Override
-    public Mono<Boolean> validateUser(String email, String numDoc) {
+    public Mono<User> validateUser(String email, String numDoc) {
         return solicitudRepository.findUserByEmailId(email,numDoc);
     }
 

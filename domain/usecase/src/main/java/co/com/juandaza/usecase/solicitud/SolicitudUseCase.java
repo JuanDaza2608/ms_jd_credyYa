@@ -3,6 +3,7 @@ package co.com.juandaza.usecase.solicitud;
 import co.com.juandaza.model.solicitudModel.Solicitud;
 import co.com.juandaza.model.solicitudModel.gateways.SolicitudGateway;
 import co.com.juandaza.model.solicitudModel.gateways.TipoPrestamo;
+import co.com.juandaza.model.user.User;
 import co.com.juandaza.usecase.util.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,16 +14,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SolicitudUseCase {
     private final SolicitudGateway solicitudGateway;
+    private Number SalaryBase;
 
     public Mono<Solicitud> validateUser(Solicitud solicitud){
         System.out.println("Entra a validad usuario con los datos: Correo --> " + solicitud.getEmail() + " //// Numero Identificacion --> " + solicitud.getNroIdentificacion());
         return solicitudGateway.validateUser(solicitud.getEmail(), solicitud.getNroIdentificacion())
-                .flatMap(existe -> {
-                    if(!existe) {
-                        return Mono.error(new BusinessException("Usuario no encontrado"));
-                    }
-                    return Mono.just(solicitud);
-                });
+                .map(user -> {
+                    SalaryBase = user.getSalarioBase();
+                    return (solicitud);
+                })
+                .switchIfEmpty(Mono.error(new BusinessException("Usuario no encontrado")))
+                .thenReturn(solicitud);
     }
 
     public Mono<Solicitud> validateLoanType(Solicitud solicitud){
@@ -37,8 +39,11 @@ public class SolicitudUseCase {
     }
 
     public Mono<Solicitud> validateMon(Solicitud solicitud){
-        System.out.println("Validando los Montos de la solicitud");
-        return null;
+        System.out.println("Validando los Montos de la solicitud con SALARIO --> " + solicitud.getMonto().doubleValue() + "   y  SalarioBase --> " + SalaryBase);
+        if (solicitud.getMonto().doubleValue() < SalaryBase.doubleValue()){
+            return Mono.error(new BusinessException("El monto de solicitud es mayor al salario"));
+        }
+        return Mono.just(solicitud);
     }
 
     public Mono<Solicitud> saveSolicitud(Solicitud solicitud) {
