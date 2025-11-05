@@ -6,8 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface SolicitudGateway {
 
-    Mono<TipoPrestamo> getTipoPrestamo(String tipPrestamo);
-
     Mono<Solicitud> saveSolicitud(Solicitud solicitud);
 
     Mono<User> validateUser(String email, String numDoc);

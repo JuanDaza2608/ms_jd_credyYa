@@ -30,7 +30,7 @@ public class SolicitudHandler {
                 .flatMap(solicitudUseCase::validateUser)
                 .flatMap(solicitudUseCase::validateLoanType)
                 .flatMap(solicitudUseCase::validateMon)
-               
+                .flatMap(solicitudUseCase::saveSolicitud )
                 .flatMap(solicitud -> ServerResponse.ok().bodyValue(solicitud))
 
 

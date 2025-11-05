@@ -41,45 +41,36 @@ public class SolicitudUseCase {
     public Mono<Solicitud> validateMon(Solicitud solicitud){
         System.out.println("Validando los Montos de la solicitud con SALARIO --> " + solicitud.getMonto().doubleValue() + "   y  SalarioBase --> " + SalaryBase);
         if (solicitud.getMonto().doubleValue() < SalaryBase.doubleValue()){
-            return Mono.error(new BusinessException("El monto de solicitud es mayor al salario"));
+            return Mono.error(new BusinessException("El monto de solicitud es mayor al salario del empleado"));
         }
         return Mono.just(solicitud);
     }
 
     public Mono<Solicitud> saveSolicitud(Solicitud solicitud) {
         System.out.println("Los Datos son correctos, se procede a crear solicitud");
-        return null;
-//        return solicitudGateway.saveSolicitud(solicitud)
-//                .flatMap(tipoPrestamo -> {
-//                    // Validación de rango
-//                    if (solicitud.getMonto().doubleValue() <
-//                            || solicitud.getMonto().doubleValue() > tipoPrestamo.getMonMax().doubleValue()) {
-//                        return Mono.error(new IllegalArgumentException(
-//                                String.format("El monto %.2f está fuera del rango permitido [%.2f - %.2f]",
-//                                        solicitud.getMonto().doubleValue(),
-//                                        tipoPrestamo.getMonMin().doubleValue(),
-//                                        tipoPrestamo.getMonMax().doubleValue())
-//                        ));
-//                    }
-//
-//                    // ✅ Aquí continuarías con la lógica de guardar la solicitud
-//                    return solicitudGateway.saveSolicitud(solicitud);
-//                });
+                return generateUniqueIdSolicitud()
+                        .map(ramdonId -> {
+                            solicitud.setIdSolicitud(ramdonId);
+                            return solicitud;
+                        })
+                        .flatMap(solicitudGateway::saveSolicitud)
+                        .doOnSuccess(s ->System.out.println("La solicitud se ha guardado correctamente  " +  solicitud));
 
     }
     public Mono<String> generateUniqueIdSolicitud() {
-        return null;
+        String randomIdSolicitud = UUID.randomUUID().toString();
+
+        return solicitudGateway.existById(randomIdSolicitud)
+                .flatMap(exists -> {
+                    if (exists) {
+                        // Si el ID ya existe, generar otro (recursivo)
+                        return generateUniqueIdSolicitud();
+                    } else {
+                        System.out.println("el Id de la SOlicitud es   " + randomIdSolicitud);
+                        return Mono.just(randomIdSolicitud);
+                    }
+
+                });
     }
-//        String randomIdSolicitud = UUID.randomUUID().toString();
-//        return solicitudGateway.existById(randomIdUser)
-//                .flatMap(exists -> {
-//                    if (exists) {
-//                        // Si el ID ya existe, generar otro (recursivo)
-//                        return generateUniqueId();
-//                    } else {
-//                        return Mono.just(randomIdUser);
-//                    }
-//                });
-//    }
 }
 

@@ -18,15 +18,15 @@ public class SolicitudGatewayAdapter implements SolicitudGateway {
     private final SolicitudRepository solicitudRepository;
 
     @Override
-    public Mono<TipoPrestamo> getTipoPrestamo(String tipPrestamo) {
-        return null;
-    }
-
-    @Override
     public Mono<Solicitud> saveSolicitud(Solicitud solicitud) {
-    //return solicitudRepository.insertSolicitud(solicitud);
-    return null;
-    }
+        return solicitudRepository.insertSolicitud(
+                solicitud.getIdSolicitud(),
+                solicitud.getMonto().toString(),
+                solicitud.getPlazo().toString(),
+                solicitud.getEmail(),
+                solicitud.getIdEstado(),
+                solicitud.getPrestamoTipo()
+        ).thenReturn(solicitud);    }
 
     @Override
     public Mono<User> validateUser(String email, String numDoc) {
