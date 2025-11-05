@@ -17,6 +17,10 @@ spring:
     database: "ms_jd_credy_ya"
     username: "postgres"
     password: "Admin"
+    pool:
+      initial-size: 10
+      max-size: 30
+      max-idle-time: 30m
 management:
   endpoints:
     web:
@@ -29,8 +33,7 @@ management:
 logging:
   level:
     org.springframework.data.r2dbc: DEBUG
-    io.r2dbc.postgresql.QUERY: DEBUG
-    io.r2dbc.postgresql.PARAM: DEBUG
+    io.r2dbc.postgresql.QUERY: INFO
 
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"

@@ -3,15 +3,10 @@ package co.com.juandaza.r2dbc.gateways;
 import co.com.juandaza.model.solicitudModel.Solicitud;
 import co.com.juandaza.model.solicitudModel.gateways.SolicitudGateway;
 import co.com.juandaza.model.solicitudModel.gateways.TipoPrestamo;
-import co.com.juandaza.model.user.User;
-import co.com.juandaza.r2dbc.TipoPrestamoRepository;
-import co.com.juandaza.r2dbc.entities.TipoPrestamoEntity;
-import co.com.juandaza.r2dbc.mappers.solicitud.SolicitudMappers;
 import co.com.juandaza.r2dbc.solicitud.SolicitudRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Log4j2
@@ -19,25 +14,30 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class SolicitudGatewayAdapter implements SolicitudGateway {
     private final SolicitudRepository solicitudRepository;
-    private final TipoPrestamoRepository tipoPrestamoRepository;
-
 
     @Override
-    public Mono<TipoPrestamo> getTipoPrestamo(String idPrestamo) {
-        return tipoPrestamoRepository.findTipoPrestamo(idPrestamo)
-                .map(entity -> new TipoPrestamo(
-                        entity.getIdPrestamo(),
-                        entity.getNomPrestamo(),
-                        entity.getMonMin(),
-                        entity.getMonMax(),
-                        entity.getTasaInteres(),
-                        entity.getValAutomatica()
-                ));
+    public Mono<TipoPrestamo> getTipoPrestamo(String tipPrestamo) {
+        return null;
     }
 
     @Override
     public Mono<Solicitud> saveSolicitud(Solicitud solicitud) {
-        return solicitudRepository.save(mapper.toEntity(solicitud))
-                .map(mapper::toDomain);
+    //return solicitudRepository.insertSolicitud(solicitud);
+    return null;
+    }
+
+    @Override
+    public Mono<Boolean> validateUser(String email, String numDoc) {
+        return solicitudRepository.findUserByEmailId(email,numDoc);
+    }
+
+    @Override
+    public Mono<Boolean> validateLoanType(String loandType) {
+        return solicitudRepository.findLoandType(loandType);
+    }
+
+    @Override
+    public Mono<Boolean> existById(String idSolicitud) {
+        return solicitudRepository.existsById(idSolicitud);
     }
 }

@@ -25,6 +25,9 @@ public class SolicitudEntity {
     @Column("plazo")
     private Number plazo;
 
+    @Column("email")
+    private String email;
+
     @Column("id_estado")
     private String idEstado;
 

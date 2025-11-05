@@ -10,26 +10,24 @@ public class SolicitudMappersImpl implements SolicitudMappers{
     @Override
     public SolicitudEntity toEntity(Solicitud solicitud) {
         SolicitudEntity entity = new SolicitudEntity();
-        entity.setNombre(solicitud.getNombre());
+        entity.setIdSolicitud(solicitud.getIdSolicitud());
         entity.setEmail(solicitud.getEmail());
-        entity.setNroIdentificacion(solicitud.getNroIdentificacion());
-        entity.setPrestamo(solicitud.getPrestamo());
         entity.setPlazo(solicitud.getPlazo());
         entity.setMonto(solicitud.getMonto());
-        entity.setEstadoSolicitud(solicitud.getEstadoSolicitud());
+        entity.setIdEstado(solicitud.getIdEstado());
+        entity.setId_tipPrestamo(solicitud.getPrestamoTipo());
         return entity;
     }
 
     @Override
     public Solicitud toModel(SolicitudEntity solicitudEntity) {
         Solicitud solicitud = new Solicitud();
-        solicitud.setNombre(entity.getNombre());
-        solicitud.setEmail(entity.getEmail());
-        solicitud.setNroIdentificacion(entity.getNroIdentificacion());
-        solicitud.setPrestamo(entity.getPrestamo());
-        solicitud.setPlazo(entity.getPlazo());
-        solicitud.setMonto(entity.getMonto());
-        solicitud.setEstadoSolicitud(entity.getEstadoSolicitud());
+        solicitud.setIdSolicitud(solicitudEntity.getIdSolicitud());
+        solicitud.setMonto(solicitudEntity.getMonto());
+        solicitud.setPlazo(solicitudEntity.getPlazo());
+        solicitud.setEmail(solicitudEntity.getEmail());
+        solicitud.setIdEstado(solicitudEntity.getIdEstado());
+        solicitud.setPrestamoTipo(solicitudEntity.getId_tipPrestamo());
         return solicitud;
     }
 }

@@ -8,13 +8,15 @@ import lombok.*;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class Solicitud {
-    private String nombre;
-    private String email;
-    //private String idSolicitud; validat si lo necesito por que se genera
-    private String nroIdentificacion;
-    private String prestamo;
-    private Number plazo;
+    private String idSolicitud;
     private Number monto;
+    private Number plazo;
+    private String email;
+    private String idEstado;
+    private String prestamoTipo;
+    private String nroIdentificacion;
+
+
 
 
 }

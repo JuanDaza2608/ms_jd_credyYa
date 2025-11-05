@@ -10,4 +10,10 @@ public interface SolicitudGateway {
 
     Mono<Solicitud> saveSolicitud(Solicitud solicitud);
 
+    Mono<Boolean> validateUser(String email, String numDoc);
+
+    Mono<Boolean> validateLoanType(String loandType);
+
+    Mono<Boolean> existById(String idSolicitud);
+
 }

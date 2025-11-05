@@ -14,6 +14,8 @@ public class SolicitudRouterRest {
     public RouterFunction<ServerResponse> solicitudrRouterFunction(SolicitudHandler handler) {
         return route(POST("/api/v1/solicitud"), handler::saveSolicitud);
 
+
+
     }
 
 }

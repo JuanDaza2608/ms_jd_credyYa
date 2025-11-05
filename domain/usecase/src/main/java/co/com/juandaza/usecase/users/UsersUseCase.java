@@ -36,7 +36,7 @@ public class UsersUseCase {
                 });
     }
 
-    private Mono<String> generateUniqueId() {
+    public Mono<String> generateUniqueId() {
         String randomIdUser = UUID.randomUUID().toString();
         return usersGateway.existById(randomIdUser)
                 .flatMap(exists -> {

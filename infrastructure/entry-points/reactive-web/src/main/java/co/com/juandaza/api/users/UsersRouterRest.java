@@ -16,5 +16,6 @@ public class UsersRouterRest {
         return route(GET("/api/v1/usuariosConsulta"), handler::getUsers)
                 .andRoute(POST("/api/v1/usuarios"), handler::saveUsers);
 
+
     }
 }
