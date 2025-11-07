@@ -14,5 +14,8 @@ public interface SolicitudGateway {
 
     Mono<Boolean> existById(String idSolicitud);
 
+    Mono<Void> approvedSolicitud(String idSolicitud, String idEstado);
+
+    Mono<Boolean> validateState(String idState);
 
 }

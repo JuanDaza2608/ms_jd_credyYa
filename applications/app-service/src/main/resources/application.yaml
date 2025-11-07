@@ -20,7 +20,7 @@ spring:
     pool:
       initial-size: 10
       max-size: 30
-      max-idle-time: 30m
+      max-idle-time: "30m"
 management:
   endpoints:
     web:
@@ -32,8 +32,17 @@ management:
         enabled: true
 logging:
   level:
-    org.springframework.data.r2dbc: DEBUG
-    io.r2dbc.postgresql.QUERY: INFO
-
+    org.springframework.data.r2dbc: "DEBUG"
+    io.r2dbc.postgresql.QUERY: "INFO"
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+commons:
+  jms:
+    input-concurrency: 10
+    output-queue: "DEV.QUEUE.2"
+    input-queue-alias: ""
+    reactive: true
+ibm:
+  mq:
+    channel: "DEV.APP.SVRCONN"
+    user: "app"

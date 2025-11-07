@@ -23,17 +23,26 @@ public interface SolicitudRepository extends ReactiveCrudRepository<SolicitudEnt
 
     @Query("INSERT INTO ms_jd_credy_ya.Solicitud " +
             "(id_solicitud, monto, plazo, email, id_estado, iid_tipo_prestamo) " +
-            "VALUES (:id, :monto, :plazo, :email, :estado, :tipoPrestamo)")
+            "VALUES (:id, :monto, :plazo, :email, 'PENDIENTE', :tipoPrestamo)")
     Mono<Void> insertSolicitud(
             @Param("id") String id,
             @Param("monto") String monto,
             @Param("plazo") String plazo,
             @Param("email") String email,
-            @Param("estado") String estado,
             @Param("tipoPrestamo") String tipoPrestamo);
 
 
-    Mono<Boolean> existsById(String idSolicituds);
+    Mono<Boolean> existsById(String idSolicitud);
 
+
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM ms_jd_credy_ya.solicitud u " +
+            "WHERE u.id_solicitud = :u and (u.id_estado  <> 'APROVADO' or u.id_estado = 'RECHAZADO')")
+    Mono<Boolean> validateState(@Param("u") String idSolicitud);
+
+
+
+    @Query("UPDATE ms_jd_credy_ya.Solicitud SET id_estado = :d WHERE id_solicitud = :u")
+    Mono<Void> updateState(@Param("u") String idSolicitud, @Param("d") String idState);
 
 }

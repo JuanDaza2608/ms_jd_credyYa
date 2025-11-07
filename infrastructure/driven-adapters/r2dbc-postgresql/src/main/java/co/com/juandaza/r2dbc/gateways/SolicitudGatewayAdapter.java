@@ -2,10 +2,8 @@ package co.com.juandaza.r2dbc.gateways;
 
 import co.com.juandaza.model.solicitudModel.Solicitud;
 import co.com.juandaza.model.solicitudModel.gateways.SolicitudGateway;
-import co.com.juandaza.model.solicitudModel.gateways.TipoPrestamo;
 import co.com.juandaza.model.user.User;
 import co.com.juandaza.r2dbc.solicitud.SolicitudRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,6 @@ public class SolicitudGatewayAdapter implements SolicitudGateway {
                 solicitud.getMonto().toString(),
                 solicitud.getPlazo().toString(),
                 solicitud.getEmail(),
-                solicitud.getIdEstado(),
                 solicitud.getPrestamoTipo()
         ).thenReturn(solicitud);    }
 
@@ -41,5 +38,15 @@ public class SolicitudGatewayAdapter implements SolicitudGateway {
     @Override
     public Mono<Boolean> existById(String idSolicitud) {
         return solicitudRepository.existsById(idSolicitud);
+    }
+
+    @Override
+    public Mono<Void> approvedSolicitud(String idSolicitud, String idState) {
+        return solicitudRepository.updateState(idSolicitud, idState);
+    }
+
+    @Override
+    public Mono<Boolean> validateState(String idState) {
+        return solicitudRepository.validateState(idState);
     }
 }
