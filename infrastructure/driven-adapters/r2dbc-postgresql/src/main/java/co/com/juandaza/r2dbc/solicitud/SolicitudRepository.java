@@ -1,9 +1,7 @@
 package co.com.juandaza.r2dbc.solicitud;
 
-import co.com.juandaza.model.solicitudModel.Solicitud;
 import co.com.juandaza.model.user.User;
 import co.com.juandaza.r2dbc.entities.SolicitudEntity;
-import co.com.juandaza.r2dbc.entities.UsersEntity;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

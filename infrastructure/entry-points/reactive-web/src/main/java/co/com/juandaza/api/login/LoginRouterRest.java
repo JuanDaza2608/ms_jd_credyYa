@@ -1,4 +1,4 @@
-package co.com.juandaza.api.solicitud;
+package co.com.juandaza.api.login;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +9,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class SolicitudRouterRest {
+public class LoginRouterRest {
     @Bean
-    public RouterFunction<ServerResponse> solicitudrRouterFunction(SolicitudHandler handler) {
-        return route(POST("/api/v1/solicitud"), handler::saveSolicitud);
+    public RouterFunction<ServerResponse> logingRouterFunction(LoginHandler handler) {
+        return route(POST("/api/v1/login"), handler::getUserLogin);
     }
-
 }

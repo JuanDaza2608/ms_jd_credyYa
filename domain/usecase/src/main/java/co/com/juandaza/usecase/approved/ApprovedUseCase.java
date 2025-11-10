@@ -16,7 +16,7 @@ public class ApprovedUseCase {
         return solicitudGateway.validateState(solicitud.getIdSolicitud())
                 .flatMap(estado -> {
                     if (!estado) {
-                        return Mono.error(new BusinessException("Estado de la solicitud invalido"));
+                        return Mono.error(new BusinessException("APR-001","Estado de la solicitud invalido"));
                     }
                     return Mono.just(solicitud);
                 });

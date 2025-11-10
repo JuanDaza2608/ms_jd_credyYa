@@ -24,7 +24,7 @@ public class UsersUseCase {
         return usersGateway.existsByEmail(user.getEmail())
                 .flatMap(exists -> {
                     if (exists) {
-                       return Mono.error(new BusinessException("El correo ya está registrado"));
+                       return Mono.error(new BusinessException("USR-001","El correo ya está registrado"));
                     }else {
                         return generateUniqueId()
                                 .map(randomId -> {

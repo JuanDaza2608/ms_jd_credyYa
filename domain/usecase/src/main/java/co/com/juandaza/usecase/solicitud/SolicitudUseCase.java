@@ -23,7 +23,7 @@ public class SolicitudUseCase {
                     SalaryBase = user.getSalarioBase();
                     return (solicitud);
                 })
-                .switchIfEmpty(Mono.error(new BusinessException("Usuario no encontrado")))
+                .switchIfEmpty(Mono.error(new BusinessException("SOL-001","Usuario no encontrado")))
                 .thenReturn(solicitud);
     }
 
@@ -32,7 +32,7 @@ public class SolicitudUseCase {
         return solicitudGateway.validateLoanType(solicitud.getPrestamoTipo())
                 .flatMap(existe -> {
                     if(!existe){
-                        return Mono.error(new BusinessException("Tipo de Solicitud invalido"));
+                        return Mono.error(new BusinessException("SOL-002","Tipo de Solicitud invalido"));
                     }
                     return Mono.just(solicitud);
                 });
@@ -41,7 +41,7 @@ public class SolicitudUseCase {
     public Mono<Solicitud> validateMon(Solicitud solicitud){
         System.out.println("Validando los Montos de la solicitud con SALARIO --> " + solicitud.getMonto().doubleValue() + "   y  SalarioBase --> " + SalaryBase);
         if (solicitud.getMonto().doubleValue() > SalaryBase.doubleValue()){
-            return Mono.error(new BusinessException("El monto de solicitud es mayor al salario del empleado"));
+            return Mono.error(new BusinessException("SOL-003","El monto de solicitud es mayor al salario del empleado"));
         }
         return Mono.just(solicitud);
     }
